@@ -2,7 +2,11 @@ NAME=game
 SDL_PATH=./sdl
 
 SRC_NAME=main.cpp\
-		 display.cpp
+		 textures.cpp\
+		 display.cpp\
+		 createRoom.cpp\
+		 Vector2.cpp\
+		 GameObject.cpp
 
 SRC=$(addprefix srcs/, $(SRC_NAME))
 OBJ=$(patsubst srcs/%.cpp, obj/%.o, $(SRC))

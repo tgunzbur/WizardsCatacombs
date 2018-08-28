@@ -6,13 +6,14 @@
 /*   By: chaydont <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/28 13:02:31 by chaydont          #+#    #+#             */
-/*   Updated: 2018/08/28 15:39:19 by chaydont         ###   ########.fr       */
+/*   Updated: 2018/08/28 16:06:16 by tgunzbur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef VECTOR2_HPP
 # define VECTOR2_HPP
-# include <iostream>
+
+# include "main.hpp"
 
 class Vector2 {
 	public:

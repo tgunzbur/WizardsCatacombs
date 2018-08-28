@@ -1,7 +1,44 @@
 #include "main.hpp"
+using namespace std;
 
-SDL_Window		*window;
-SDL_Renderer	*renderer;
+SDL_Window				*window;
+SDL_Renderer			*renderer;
+
+Events	getEvents(Events events)
+{
+	SDL_Event event;
+
+	events.mouseKeys = SDL_GetMouseState(&(events.mousePos.x),
+										&(events.mousePos.y));
+	while (SDL_PollEvent(&event))
+	{
+		switch (event.type)
+		{
+			case SDL_KEYDOWN:
+				events.keys[event.key.keysym.scancode] = true;
+				break;
+			case SDL_KEYUP:
+				events.keys[event.key.keysym.scancode] = false;
+				break;
+		}
+	}
+	return (events);
+}
+
+void	game(void)
+{
+	Events	events;
+	vector <GameObject *> background;
+	vector <GameObject *> objects;
+	vector <GameObject *> characters;
+
+	background = createRoom(5);
+	while (!events.keys[SDL_SCANCODE_ESCAPE])
+	{
+		display(background, objects, characters);
+		events = getEvents(events);
+	}
+}
 
 int		quit()
 {
@@ -22,5 +59,8 @@ int		main(void)
 			SDL_WINDOW_SHOWN,
 			&window, &renderer))
 		return (quit());
+	if (!setTexture(renderer))
+		return (quit());
+	game();
 	return (quit());
 }
