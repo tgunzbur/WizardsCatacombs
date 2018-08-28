@@ -27,15 +27,16 @@ Events	getEvents(Events events)
 
 void	game(void)
 {
-	Events	events;
-	vector <GameObject *> background;
-	vector <GameObject *> objects;
-	vector <GameObject *> characters;
+	Events					events;
+	vector <GameObject *>	background;
+	vector <GameObject *>	objects;
+	vector <GameObject *>	characters;
+	int						size = 100;
 
-	background = createRoom(5);
+	background = createRoom(size);
 	while (!events.keys[SDL_SCANCODE_ESCAPE])
 	{
-		display(background, objects, characters);
+		display(background, objects, characters, size);
 		events = getEvents(events);
 	}
 }
@@ -61,6 +62,7 @@ int		main(void)
 		return (quit());
 	if (!setTexture(renderer))
 		return (quit());
+	TTF_Init();
 	game();
 	return (quit());
 }

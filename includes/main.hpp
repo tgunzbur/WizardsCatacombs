@@ -10,8 +10,10 @@
 # include <fstream>
 # include <string>
 
-# define SCREENX 1600
-# define SCREENY 900
+# define SCREENX 720
+# define SCREENY 1280
+# define BORDERX 50
+# define BORDERY 0
 # define SIZE 64
 # define DIRT 0
 
@@ -21,6 +23,6 @@ std::vector <GameObject *>	createRoom(int size);
 bool						display(
 		std::vector <GameObject *> background,
 		std::vector <GameObject *> objects,
-		std::vector <GameObject *> characters);
+		std::vector <GameObject *> characters, int size);
 
 #endif
