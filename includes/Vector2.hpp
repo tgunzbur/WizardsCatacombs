@@ -6,11 +6,13 @@
 /*   By: chaydont <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/28 13:02:31 by chaydont          #+#    #+#             */
-/*   Updated: 2018/08/28 14:47:30 by chaydont         ###   ########.fr       */
+/*   Updated: 2018/08/28 15:39:19 by chaydont         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>
+#ifndef VECTOR2_HPP
+# define VECTOR2_HPP
+# include <iostream>
 
 class Vector2 {
 	public:
@@ -28,3 +30,5 @@ class Vector2 {
 	Vector2 operator-(Vector2 a, Vector2 b);
 	bool operator==(Vector2 a, Vector2 b);
 	bool operator!=(Vector2 a, Vector2 b);
+
+#endif
