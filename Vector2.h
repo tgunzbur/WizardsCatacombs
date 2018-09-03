@@ -2,10 +2,11 @@
 # define VECTOR2_HPP
 
 class Vector2 {
-    public:
-    int x;
-    int y;
+    private:
+        int x;
+        int y;
 
+    public:
 	Vector2(int c_x = 0, int c_y = 0);
 	Vector2 operator+=(Vector2 a);
 	Vector2 operator-=(Vector2 a);

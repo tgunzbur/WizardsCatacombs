@@ -1,8 +1,6 @@
 #include <math.h>
 #include "main.h"
 
-using namespace std;
-
 Vector2::Vector2(int c_x, int c_y)
 {
 	x = c_x;
@@ -23,7 +21,7 @@ Vector2		Vector2::operator-=(Vector2 a)
 
 void		Vector2::print()
 {
-    cout << "X : " << x << endl << "Y : " << y << endl;
+    std::cout << "X : " << x << std::endl << "Y : " << y << std::endl;
 }
 
 Vector2		operator+(Vector2 a, Vector2 b)
@@ -70,5 +68,5 @@ int         squareDist(Vector2 a, Vector2 b)
 
 int         diagDist(Vector2 a, Vector2 b)
 {
-    return (max(abs(a.x - b.x), abs(a.y - b.y)));
+    return (int(fmax(abs(a.x - b.x), abs(a.y - b.y))));
 }
