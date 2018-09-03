@@ -1,4 +1,5 @@
 QT += widgets
 
-SOURCES += \
-    main.cpp
+SOURCES += main.cpp
+
+RESOURCES += data.qrc
