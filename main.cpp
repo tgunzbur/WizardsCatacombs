@@ -16,14 +16,3 @@ int    main(int argc, char **argv)
     window.show();
     return application.exec();
 }
-
-
-void    display(QWidget *window)
-{
-    QLabel  label(window);
-    QImage  newImg;
-
-    newImg = img.scaled(this.size, this.size, Qt::KeepAspectRatio);
-    label.setGeometry(this.pos.x, this.pos.y, this.size, this.size);
-    label.setPixmap(QPixmap::fromImage(newImg));
-}

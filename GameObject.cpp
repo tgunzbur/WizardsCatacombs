@@ -11,6 +11,12 @@ Vector2 GameObject::Move(Vector2 movement)
     return (position);
 }
 
+Vector2 GameObject::setPosition(Vector2 newPosition)
+{
+    position = newPosition;
+    return (position);
+}
+
 void    GameObject::print()
 {
     std::cout << "Object id: " << id << std::endl;
@@ -23,7 +29,7 @@ void    GameObject::display(QWidget *window)
     QLabel  label(window);
     QImage  newImg;
 
-    newImg = image.scaled(this->size, this->size, Qt::KeepAspectRatio);
-    label.setGeometry(this->position.x, this->position.y, this->size, this->size);
+    newImg = image.scaled(size, size, Qt::KeepAspectRatio);
+    label.setGeometry(position.x, position.y, size, size);
     label.setPixmap(QPixmap::fromImage(newImg));
 }
