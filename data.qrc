@@ -1,0 +1,5 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+    <file alias="player.png">data/player.png</file>
+</qresource>
+</RCC>
