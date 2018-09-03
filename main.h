@@ -6,5 +6,7 @@
 #include <QImage>
 #include <iostream>
 #include "Vector2.h"
+#include "GameObject.h"
+#include "mainwindow.h"
 
 #endif

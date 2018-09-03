@@ -1,29 +1,36 @@
 #include "main.h"
+#include <QPushButton>
 
 int    main(int argc, char **argv)
 {
-    QApplication application(argc, argv);
+    QApplication    application(argc, argv);
+    MainWindow      mainWindow;
 
-    QWidget window;
-    window.setFixedSize(200, 200);
-    QLabel  label;
-    QImage  image(":/player.png");
-    image = image.scaled(100, 100, Qt::KeepAspectRatio);
-    QPixmap pixMap = QPixmap::fromImage(image);
-    label.setPixmap(pixMap);
-    label.setGeometry(50, 50, image.size().width(), image.size().height());
-    label.setParent(&window);
-    window.show();
+    mainWindow.show();
     return application.exec();
 }
 
-
-void    display(QWidget *window)
+MainWindow::MainWindow()
 {
-    QLabel  label(window);
-    QImage  newImg;
+    QWidget     *window = new QWidget;
+    QPushButton *button = new QPushButton;
+    QImage      image(":/player.png");
+    GameObject  *player = new GameObject(image, Vector2(50, 50), 64);
+    QIcon       icon(QPixmap::fromImage(image));
 
-    newImg = img.scaled(this.size, this.size, Qt::KeepAspectRatio);
-    label.setGeometry(this.pos.x, this.pos.y, this.size, this.size);
-    label.setPixmap(QPixmap::fromImage(newImg));
+    player->display(window);
+    player->Move(Vector2(10, 10));
+    player->display(window);
+    button->setIcon(icon);
+    button->setIconSize(QSize(50, 50));
+    button->setFixedSize(50, 50);
+    button->setFlat(true);
+    button->setParent(window);
+
+    setCentralWidget(window);
 }
+
+/*
+
+    button.move(50, 100);
+*/

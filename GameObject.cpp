@@ -1,8 +1,11 @@
 #include "GameObject.h"
 
-GameObject::GameObject(Vector2 c_pos)
+GameObject::GameObject(QImage c_img, Vector2 c_pos, int c_size)
 {
+    label = new QLabel;
+    image = c_img;
     position = c_pos;
+    size = c_size;
 }
 
 Vector2 GameObject::Move(Vector2 movement)
@@ -14,16 +17,16 @@ Vector2 GameObject::Move(Vector2 movement)
 void    GameObject::print()
 {
     std::cout << "Object id: " << id << std::endl;
-    std::cout << "Position: " << std::endl;
+    std::cout << "Position: ";
     position.print();
 }
 
 void    GameObject::display(QWidget *window)
 {
-    QLabel  label(window);
     QImage  newImg;
 
-    newImg = image.scaled(this->size, this->size, Qt::KeepAspectRatio);
-    label.setGeometry(this->position.x, this->position.y, this->size, this->size);
-    label.setPixmap(QPixmap::fromImage(newImg));
+    newImg = image.scaled(size, size, Qt::KeepAspectRatio);
+    label->setPixmap(QPixmap::fromImage(newImg));
+    label->setGeometry(position.x, position.y, size, size);
+    label->setParent(window);
 }

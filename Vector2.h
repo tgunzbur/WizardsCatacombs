@@ -1,16 +1,15 @@
-#ifndef VECTOR2_HPP
-# define VECTOR2_HPP
+#ifndef VECTOR2_H
+# define VECTOR2_H
 
 class Vector2 {
-    private:
+    public:
         int x;
         int y;
 
-    public:
-	Vector2(int c_x = 0, int c_y = 0);
-	Vector2 operator+=(Vector2 a);
-	Vector2 operator-=(Vector2 a);
-	void	print();
+        Vector2(int c_x = 0, int c_y = 0);
+        Vector2 operator+=(Vector2 a);
+        Vector2 operator-=(Vector2 a);
+        void	print();
 };
 
 	Vector2 operator+(Vector2 a, Vector2 b);
