@@ -54,11 +54,21 @@ bool		operator!=(Vector2 a, Vector2 b)
 	return (a == b ? false : true);
 }
 
-double		distance(Vector2 a, Vector2 b)
+double		directDist(Vector2 a, Vector2 b)
 {
 	if (a == b)
 		return (0);
 	int distX = abs(a.x - b.x);
 	int distY = abs(a.y - b.y);
 	return (sqrt(distX * distX + distY * distY));
+}
+
+int         squareDist(Vector2 a, Vector2 b)
+{
+    return (abs(a.x - b.x) + abs(a.y - b.y));
+}
+
+int         diagDist(Vector2 a, Vector2 b)
+{
+    return (max(abs(a.x - b.x), abs(a.y - b.y)));
 }
