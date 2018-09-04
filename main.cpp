@@ -1,18 +1,21 @@
 #include "main.h"
 
-int    main(int argc, char **argv)
-{
-    QApplication application(argc, argv);
+using namespace std;
 
-    QWidget window;
-    window.setFixedSize(200, 200);
-    QLabel  label;
-    QImage  image(":/player.png");
-    image = image.scaled(100, 100, Qt::KeepAspectRatio);
-    QPixmap pixMap = QPixmap::fromImage(image);
-    label.setPixmap(pixMap);
-    label.setGeometry(50, 50, image.size().width(), image.size().height());
-    label.setParent(&window);
-    window.show();
-    return application.exec();
+int    main()
+{
+    vector<Vector2> s = {};
+    vector<Spell*> playerspell;
+    vector<Spell*> monsterspell;
+    monsterspell.push_back(new Spell(1));
+    playerspell.push_back(new Spell(2));
+    playerspell.push_back(new Spell(3));
+    Character monster("Gnork", 12, 50, Vector2 (2, 3), monsterspell);
+    Character player("Billy", 20, 100, Vector2(5, 5), playerspell);
+
+    player.ChangeHealth(-20);
+    player.spells[0]->useSpell(s);
+    player.print();
+    monster.print();
+    return (0);
 }

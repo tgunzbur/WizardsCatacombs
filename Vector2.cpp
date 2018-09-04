@@ -1,5 +1,4 @@
-#include <math.h>
-#include "main.h"
+#include <Vector2.h>
 
 Vector2::Vector2(int c_x, int c_y)
 {

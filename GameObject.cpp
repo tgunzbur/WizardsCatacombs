@@ -1,8 +1,16 @@
 #include "GameObject.h"
 
-GameObject::GameObject(Vector2 c_pos)
+GameObject::GameObject(std::string c_name, Vector2 c_pos)
 {
+    name = c_name;
     position = c_pos;
+}
+
+void    GameObject::print()
+{
+    std::cout << "Object name: " << name << std::endl;
+    std::cout << "Position: " << std::endl;
+    position.print();
 }
 
 Vector2 GameObject::Move(Vector2 movement)
@@ -15,13 +23,6 @@ Vector2 GameObject::setPosition(Vector2 newPosition)
 {
     position = newPosition;
     return (position);
-}
-
-void    GameObject::print()
-{
-    std::cout << "Object id: " << id << std::endl;
-    std::cout << "Position: " << std::endl;
-    position.print();
 }
 
 void    GameObject::display(QWidget *window)

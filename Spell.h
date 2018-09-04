@@ -1,24 +1,24 @@
 #ifndef SPELL_H
 # define SPELL_H
 
-#include "main.h"
+#include <iostream>
 #include <vector>
+#include "Vector2.h"
 
 class Spell
 {
-    private:
-        std::string name;
-        std::vector<Vector2> squares;
-        int     manaCost;
-        int     maxCooldown;
-        int     currentCooldown;
-        void    (*use)();
+    protected:
+        std::string             name;
+        std::vector<Vector2>    range;
+        int                     manaCost;
+        unsigned int            maxCooldown;
+        unsigned int            currentCooldown;
+        void                    (*use)(std::vector<Vector2>);
 
     public:
-        Spell(std::string c_name, int c_manaCost = 0, int c_maxCooldown = 0,
-              std::vector<Vector2>(*range)() = nullptr, void (*c_use)() = nullptr);
-        void    useSpell();
-
+        Spell(int spellId);
+        void    print();
+        int     useSpell(std::vector<Vector2> squares);
 };
 
 #endif
