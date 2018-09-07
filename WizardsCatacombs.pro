@@ -1,13 +1,18 @@
-QT += widgets
+QT += \
+    widgets \
+    core gui
 
-SOURCES += main.cpp \
+SOURCES += \
+    main.cpp \
     GameObject.cpp \
-    Vector2.cpp
+    Vector2.cpp \
+    Scene.cpp
 
 RESOURCES += data.qrc
 
 HEADERS += \
-    GameObject.h \
     main.h \
+    GameObject.h \
     Vector2.h \
-    mainwindow.h
+    Scene.h \
+    define.h

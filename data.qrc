@@ -1,5 +1,13 @@
-<!DOCTYPE RCC><RCC version="1.0">
-<qresource>
-    <file alias="player.png">data/player.png</file>
-</qresource>
+<RCC>
+	<qresource prefix="/">
+		<file alias="ground.png">data/ground.png</file>
+		<file alias="groundWithWall.png">data/groundWithWall.png</file>
+		<file alias="wall.png">data/wall.png</file>
+		<file alias="playerDown.png">data/playerDown.png</file>
+		<file alias="playerUp.png">data/playerUp.png</file>
+		<file alias="playerRight.png">data/playerRight.png</file>
+		<file alias="playerLeft.png">data/playerRight.png</file>
+		<file alias="stairDown.png">data/stairDown.png</file>
+		<file alias="stairUp.png">data/stairUp.png</file>
+	</qresource>
 </RCC>

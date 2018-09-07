@@ -1,5 +1,4 @@
-#include <math.h>
-#include "main.h"
+#include "Vector2.h"
 
 Vector2::Vector2(int c_x, int c_y)
 {
@@ -9,7 +8,7 @@ Vector2::Vector2(int c_x, int c_y)
 
 Vector2		Vector2::operator+=(Vector2 a)
 {
-	*this = *this + a;
+    *this = *this + a;
 	return (*this);
 }
 
@@ -21,7 +20,7 @@ Vector2		Vector2::operator-=(Vector2 a)
 
 void		Vector2::print()
 {
-    std::cout << "X : " << x << std::endl << "Y : " << y << std::endl;
+    std::cout << x << ", " << y << std::endl;
 }
 
 Vector2		operator+(Vector2 a, Vector2 b)
@@ -40,6 +39,20 @@ Vector2		operator-(Vector2 a, Vector2 b)
 	result.x = a.x - b.x;
 	result.y = a.y - b.y;
 	return (result);
+}
+
+Vector2		operator*(Vector2 a,int b)
+{
+	a.x *= b;
+	a.y *= b;
+	return (a);
+}
+
+Vector2		operator/(Vector2 a, int b)
+{
+	a.x /= b;
+	a.y /= b;
+	return (a);
 }
 
 bool		operator==(Vector2 a, Vector2 b)

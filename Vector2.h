@@ -1,5 +1,8 @@
 #ifndef VECTOR2_H
-# define VECTOR2_H
+#define VECTOR2_H
+
+#include <math.h>
+#include "iostream"
 
 class Vector2 {
     public:
@@ -14,6 +17,8 @@ class Vector2 {
 
 	Vector2 operator+(Vector2 a, Vector2 b);
 	Vector2 operator-(Vector2 a, Vector2 b);
+	Vector2	operator*(Vector2 a, int b);
+	Vector2	operator/(Vector2 a, int b);
 	bool	operator==(Vector2 a, Vector2 b);
 	bool	operator!=(Vector2 a, Vector2 b);
     double	directDist(Vector2 a, Vector2 b);

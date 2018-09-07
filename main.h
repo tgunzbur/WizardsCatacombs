@@ -1,12 +1,13 @@
 #ifndef MAIN_H
-# define MAIN_H
+#define MAIN_H
 
 #include <QApplication>
-#include <QLabel>
+#include <QGraphicsScene>
+#include <QGraphicsView>
 #include <QImage>
-#include <iostream>
-#include "Vector2.h"
+#include <QTimer>
+
 #include "GameObject.h"
-#include "mainwindow.h"
+#include "Scene.h"
 
 #endif
