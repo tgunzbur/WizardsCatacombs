@@ -25,12 +25,7 @@ Vector2 GameObject::setPosition(Vector2 newPosition)
     return (position);
 }
 
-void    GameObject::display(QWidget *window)
+bool	GameObject::isTouched(Vector2 pos)
 {
-    QLabel  label(window);
-    QImage  newImg;
-
-    newImg = image.scaled(size, size, Qt::KeepAspectRatio);
-    label.setGeometry(position.x, position.y, size, size);
-    label.setPixmap(QPixmap::fromImage(newImg));
+	return (pos == position ? true : false);
 }

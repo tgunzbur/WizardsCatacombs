@@ -4,17 +4,10 @@ using namespace std;
 
 int    main()
 {
-    vector<Vector2> s = {};
-    vector<Spell*> playerspell;
-    vector<Spell*> monsterspell;
-    monsterspell.push_back(new Spell(1));
-    playerspell.push_back(new Spell(2));
-    playerspell.push_back(new Spell(3));
-    Character monster("Gnork", 12, 50, Vector2 (2, 3), monsterspell);
-    Character player("Billy", 20, 100, Vector2(5, 5), playerspell);
+    Character monster("Gnork", 12, 50, 20,  Vector2 (2, 3));
+    Character player("Billy", 20, 100, 50, Vector2(5, 5));
 
-    player.ChangeHealth(-20);
-    player.spells[0]->useSpell(s);
+    player.changeHealth(-20);
     player.print();
     monster.print();
     return (0);

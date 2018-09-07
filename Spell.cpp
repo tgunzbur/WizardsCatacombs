@@ -1,51 +1,58 @@
-#include "Spell.h"
+#include "GameObject.h"
 
 using namespace std;
 
-void    FireBall(vector<Vector2> squares)
+struct s_spell{
+    long             id;
+    string          name;
+    unsigned int    maxCooldown;
+    int             manaCost;
+	void            (*f)(Vector2, int, vector<vector<GameObject*>>, vector<Character>);
+};
+
+void    FireBall(Vector2 position, int power,
+				 vector<vector<GameObject*>> map,
+				 vector<Character> characters)
 {
-    (void)squares;
-    cout << "PAF" << endl;
+	Vector2 fireball(position);
+
+	for (int j = 0; j < 5; j++)
+	{
+		fireball.x++;
+		if (!map[unsigned(fireball.y)][unsigned(fireball.x)]->isGround())
+			return ;
+		for (size_t i = 0; i < characters.size(); i++)
+		{
+			if (characters[i].isTouched(fireball))
+			{
+				characters[i].changeHealth(power);
+				return ;
+			}
+		}
+	}
 }
 
-
-Spell::Spell(int spellId)
+static s_spell tab[10] =
 {
-    string  c_name[4] = {
-        "salut",
-        "J'ai du mal",
-        "a trouver",
-        "des noms"
-    };
-    void    (*f[4])(vector<Vector2>) = {
-        &FireBall,
-        &FireBall,
-        &FireBall,
-        &FireBall
-    };
-    unsigned int     c_maxCooldown[4] = {
-        0,
-        1,
-        4,
-        171
-    };
-    int     c_manaCost[4] = {
-        2,
-        1,
-        5,
-        80
-    };
-    vector<Vector2> c_range[4] = {
-        {Vector2 (1, 0)},
-        {Vector2 (1, 0), Vector2 (2, 0)},
-        {Vector2 (1, 0), Vector2 (-1, 0), Vector2 (0, -1),Vector2 (0, 1)},
-        {}
-    };
-    name = c_name[spellId];
-    maxCooldown = c_maxCooldown[spellId];
-    manaCost = c_manaCost[spellId];
-    use = f[spellId];
-    range = c_range[spellId];
+	{0,"FireBall",		3,	10,	FireBall},
+	{1,"FireBall",		3,	10,	FireBall},
+	{2,"FireBall",		3,	10,	FireBall},
+	{3,"FireBall",		3,	10,	FireBall},
+	{4,"FireBall",		3,	10,	FireBall},
+	{5,"FireBall",		3,	10,	FireBall},
+	{6,"FireBall",		3,	10,	FireBall},
+	{7,"FireBall",		3,	10,	FireBall},
+	{8,"FireBall",		3,	10,	FireBall},
+	{9,"FireBall",		3,	10,	FireBall}
+};
+
+Spell::Spell(int spellID)
+{
+	id =            tab[spellID].id;
+	name =          tab[spellID].name;
+	maxCooldown =   tab[spellID].maxCooldown;
+	manaCost =      tab[spellID].manaCost;
+	spell =         tab[spellID].f;
     currentCooldown = 0;
 }
 
@@ -54,14 +61,18 @@ void    Spell::print()
     cout << "Name: "      << name << endl <<
             "Mana Cost: " << manaCost << endl <<
             "Cooldown: "  << currentCooldown <<
-            " / "         << maxCooldown << endl;
+            " / "         << maxCooldown << endl << endl;
 }
 
-int    Spell::useSpell(vector<Vector2> squares)
+int    Spell::use(int *mana,
+				  Vector2 position, int power,
+				  vector<vector<GameObject*>> map,
+				  vector<Character> characters)
 {
-    if (currentCooldown > 0)
+	if (currentCooldown > 0 || *mana - manaCost < 0)
         return (0);
+	*mana -= manaCost;
     currentCooldown = maxCooldown;
-    use(squares);
+	spell(position, power, map, characters);
     return (1);
 }
