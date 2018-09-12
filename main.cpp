@@ -1,14 +1,22 @@
 #include "main.h"
 
-using namespace std;
-
-int    main()
+int     main(int argc, char **argv)
 {
-    Character monster("Gnork", 12, 50, 20,  Vector2 (2, 3));
-    Character player("Billy", 20, 100, 50, Vector2(5, 5));
+    QApplication    application(argc, argv);
+	Scene			*scene = new Scene(5);
+    QGraphicsView   *view = new QGraphicsView(scene);
 
-    player.changeHealth(-20);
-    player.print();
-    monster.print();
-    return (0);
+    scene->setSceneRect(0, 0, 450, 800);
+	scene->setFocus();
+	scene->createBackGround();
+	scene->characters.push_back(scene->createCharacter(
+	":/playerLeft.png", Vector2 (0, scene->roomSize - 1), PLAYER, "Player", 100, 200));
+	view->show();
+	scene->characters.push_back(scene->createCharacter(
+	":/skeletonDown.png", Vector2 (0, 0), SKELETON, "Skeleton", 100, 200));
+	view->show();
+	QTimer *timer = new QTimer(scene);
+	QObject::connect(timer, SIGNAL(timeout()), scene, SLOT(game()));
+	timer->start(100);
+    return application.exec();
 }

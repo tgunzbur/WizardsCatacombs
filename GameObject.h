@@ -1,78 +1,61 @@
 #ifndef GAMEOBJECT_H
-# define GAMEOBJECT_H
+#define GAMEOBJECT_H
 
-#include "Vector2.h"
-#include <vector>
-#include <string>
-#include <QApplication>
+#include <QGraphicsPixmapItem>
+#include <QKeyEvent>
 #include <QImage>
-#include <QLabel>
+#include <vector>
+#include <QObject>
 
-class Spell;
-class Screen;
+#include "define.h"
+#include "Vector2.h"
 
-class GameObject
+class GameObject : public QGraphicsPixmapItem
 {
-    protected:
-		std::string	name;
+    public:
 		Vector2		position;
+		std::string	name;
+		int			id;
 
-	public:
-        GameObject(std::string c_name, Vector2 c_pos);
-        void    print();
-        Vector2 Move(Vector2 movement);
-        Vector2 setPosition(Vector2 newPosition);
+		GameObject(QPixmap pixmap, Vector2 c_position, int c_id);
+		GameObject(QPixmap pixmap, Vector2 c_position, int c_id, std::string c_name);
+		Vector2 movePosition(Vector2 move);
+		Vector2 setPosition(Vector2 position);
+		Vector2	movePxPosition(Vector2 move);
+		Vector2	setPxPosition(Vector2 position);
+		int		setImageSize(int size);
 		bool	isTouched(Vector2 pos);
 		bool	isGround();
+		void    print();
 };
 
 class Character: public GameObject
 {
-    protected:
-		int					maxHealth;
+    public:
 		int					currentHealth;
-		int					maxMana;
 		int					currentMana;
-		Spell				*spells[4];
+		int					maxHealth;
+		int					maxMana;
+		int					text;
+		int					cdText;
+		int					spells[4];
 
-    public:
-        int     power;
-        Character(std::string           c_name,
-                  int                   c_power,
-                  int                   c_maxHealth = 100,
-                  int                   c_maxMana = 50,
-                  Vector2               c_pos = Vector2 (0, 0));
-        ~Character();
-        void    print();
-        void    changeSpell(int slot, int newSpellID);
-		int     useSpell(int slot, std::vector<std::vector<GameObject*>> map, std::vector<Character> characters);
+		Character(QPixmap pixmap, Vector2 c_position, int c_id,
+				  std::string c_name, int c_maxHealth, int c_maxMana);
         int     changeHealth(int value);
-        int     useMana(int value);
+		int     changeMana(int value);
+		void    print();
 };
 
-
-class Scene
+class Spell: public GameObject
 {
-   public:
-	   std::vector<std::vector<GameObject*>> *background;
-	   std::vector<Character*>               *character;
-};
+	public:
+		Character	*parent;
+		Vector2		direction;
+		Vector2		start;
 
-class Spell
-{
-	protected:
-        long                    id;
-        std::string             name;
-        std::vector<Vector2>    range;
-        int                     manaCost;
-        unsigned int            maxCooldown;
-        unsigned int            currentCooldown;
-		void                    (*spell)(Vector2, int, std::vector<std::vector<GameObject*>>, std::vector<Character>);
+		Spell(QPixmap pixmap, Vector2 c_position, int c_id, Vector2 c_direction, Character *c_parent);
 
-    public:
-		Spell(int spellID);
-        void    print();
-		int     use(int *mana, Vector2 position, int power, std::vector<std::vector<GameObject*>> map, std::vector<Character> characters);
 };
 
 #endif

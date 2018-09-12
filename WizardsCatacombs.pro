@@ -1,9 +1,21 @@
-QT += widgets
+QT += \
+    widgets \
+    core gui
 
-SOURCES += main.cpp \
-    display.cpp \
+SOURCES += \
+    main.cpp \
     GameObject.cpp \
-    textures.cpp \
-    Vector2.cpp
+    Vector2.cpp \
+	Scene.cpp \
+	Character.cpp \
+    spells.cpp \
+    spell.cpp
 
 RESOURCES += data.qrc
+
+HEADERS += \
+    main.h \
+    GameObject.h \
+    Vector2.h \
+    Scene.h \
+    define.h

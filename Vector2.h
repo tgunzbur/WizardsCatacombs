@@ -1,9 +1,9 @@
-#ifndef VECTOR2_HPP
-# define VECTOR2_HPP
+#ifndef VECTOR2_H
+#define VECTOR2_H
 
-#include "iostream"
 #include <math.h>
 #include <vector>
+#include <iostream>
 
 class Vector2 {
     public:
@@ -16,12 +16,13 @@ class Vector2 {
         void	print();
 };
 
-    Vector2 operator+   (Vector2 a, Vector2 b);
-    Vector2 operator-   (Vector2 a, Vector2 b);
-    bool	operator==  (Vector2 a, Vector2 b);
-    bool	operator!=  (Vector2 a, Vector2 b);
-    double	directDist  (Vector2 a, Vector2 b);
-    int     squareDist  (Vector2 a, Vector2 b);
-    int     diagDist    (Vector2 a, Vector2 b);
-
+	Vector2 operator+(Vector2 a, Vector2 b);
+	Vector2 operator-(Vector2 a, Vector2 b);
+	Vector2	operator*(Vector2 a, int b);
+	Vector2	operator/(Vector2 a, int b);
+	bool	operator==(Vector2 a, Vector2 b);
+	bool	operator!=(Vector2 a, Vector2 b);
+    double	directDist(Vector2 a, Vector2 b);
+    int     squareDist(Vector2 a, Vector2 b);
+    int     diagDist(Vector2 a, Vector2 b);
 #endif
