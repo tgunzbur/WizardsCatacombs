@@ -10,7 +10,8 @@ enum roomCeil {
 enum character {
 	PLAYER,
 	SKELETON,
-	SPELL
+	SPELL,
+	PLAYERCLONE
 };
 
 enum buttonSpell {

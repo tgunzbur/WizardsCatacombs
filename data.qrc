@@ -16,5 +16,8 @@
 		<file alias="fireBallRight.png">data/fireBallRight.png</file>
 		<file alias="redBorder.png">data/redBorder.png</file>
 		<file alias="greenBorder.png">data/greenBorder.png</file>
+		<file alias="manaBar.png">data/manaBar.png</file>
+		<file alias="healthBar.png">data/healthBar.png</file>
+		<file alias="shieldWall.png">data/manaBar.png</file>
 	</qresource>
 </RCC>

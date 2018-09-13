@@ -3,9 +3,10 @@
 using namespace std;
 
 Character::Character(QPixmap c_image, Vector2 c_pos, int id,
-					 string c_name, int c_maxHealth, int c_maxMana)
+					 string c_name, int c_maxHealth, int c_maxMana, GameObject *c_lifeBar)
 					: GameObject (c_image, c_pos, id, c_name)
 {
+	lifeBar = c_lifeBar;
     maxHealth = c_maxHealth;
 	maxMana = c_maxMana;
     currentHealth = maxHealth;
@@ -13,7 +14,11 @@ Character::Character(QPixmap c_image, Vector2 c_pos, int id,
 	text = 0;
 	cdText = 0;
     for (int i = 0; i < 4; i++)
-		spells[i] = i;
+	{
+		spells[i] = 0;
+		spellsCd[i] = 0;
+	}
+	spells[1] = 1;
 }
 
 int     Character::changeHealth(int value)

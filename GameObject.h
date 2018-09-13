@@ -32,6 +32,7 @@ class GameObject : public QGraphicsPixmapItem
 class Character: public GameObject
 {
     public:
+		GameObject			*lifeBar;
 		int					currentHealth;
 		int					currentMana;
 		int					maxHealth;
@@ -39,9 +40,10 @@ class Character: public GameObject
 		int					text;
 		int					cdText;
 		int					spells[4];
+		int					spellsCd[4];
 
 		Character(QPixmap pixmap, Vector2 c_position, int c_id,
-				  std::string c_name, int c_maxHealth, int c_maxMana);
+				  std::string c_name, int c_maxHealth, int c_maxMana, GameObject *c_lifeBar);
         int     changeHealth(int value);
 		int     changeMana(int value);
 		void    print();

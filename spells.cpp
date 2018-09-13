@@ -31,7 +31,7 @@ Spell		*createFireBall(Scene *scene, Vector2 position, Vector2 direction, Charac
 		image = ":/fireBallLeft.png";
 	spell = scene->createSpell(image, position, FIREBALL, direction, parent);
 	scene->spells.push_back(spell);
-
+	parent->changeMana(-tab[0].manaCost);
 	return (spell);
 }
 
@@ -76,6 +76,55 @@ std::vector <GameObject *>	displayFireBall(Scene *scene, Character *character)
 			else
 				stop = true;
 		}
+	}
+	return (scene->spellDisplay);
+}
+
+Spell		*createClone(Scene *scene, Vector2 position, Vector2 direction, Character *parent)
+{
+	Character	*spell;
+	std::string	image;
+
+	spell = scene->createCharacter(":/player.png", position + direction, PLAYERCLONE, "Player Clone", 1, 0, false);
+	spell->setOpacity(0.5);
+	scene->characters.push_back(spell);
+	parent->changeMana(-tab[1].manaCost);
+	return (nullptr);
+}
+
+std::vector <GameObject *>	displayClone(Scene *scene, Character *character)
+{
+	bool			stop;
+	unsigned long	dir;
+	unsigned long	j;
+	Vector2			pos;
+
+	stop = false;
+	for (dir = 0; dir < 4; dir++)
+	{
+		if (dir == 0)
+			pos = character->position + Vector2(1, 0);
+		else if (dir == 1)
+			pos = character->position + Vector2(-1, 0);
+		else if (dir == 2)
+			pos = character->position + Vector2(0, 1);
+		else if (dir == 3)
+			pos = character->position + Vector2(0, -1);
+		if (scene->isInRoom(pos) &&
+			scene->background[unsigned (pos.y)][unsigned (pos.x)]->isGround())
+		{
+			for (j = 0; j < scene->characters.size(); j++)
+			{
+				if (scene->characters[j]->isTouched(pos))
+					stop = true;
+			}
+			if (!stop)
+				scene->spellDisplay.push_back(
+				scene->createGameObject(":/greenBorder.png", pos, 0));
+
+		}
+		else
+			stop = true;
 	}
 	return (scene->spellDisplay);
 }

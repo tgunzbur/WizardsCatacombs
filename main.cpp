@@ -9,14 +9,14 @@ int     main(int argc, char **argv)
     scene->setSceneRect(0, 0, 450, 800);
 	scene->setFocus();
 	scene->createBackGround();
+	scene->createUi();
 	scene->characters.push_back(scene->createCharacter(
-	":/playerLeft.png", Vector2 (0, scene->roomSize - 1), PLAYER, "Player", 100, 200));
-	view->show();
+	":/playerLeft.png", Vector2 (0, scene->roomSize - 1), PLAYER, "Player", 100, 200, false));
 	scene->characters.push_back(scene->createCharacter(
-	":/skeletonDown.png", Vector2 (0, 0), SKELETON, "Skeleton", 100, 200));
+	":/skeletonDown.png", Vector2 (0, 0), SKELETON, "Skeleton", 100, 200, true));
 	view->show();
 	QTimer *timer = new QTimer(scene);
 	QObject::connect(timer, SIGNAL(timeout()), scene, SLOT(game()));
-	timer->start(100);
+	timer->start(17);
     return application.exec();
 }
