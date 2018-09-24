@@ -357,6 +357,7 @@ void		Scene::keyPressEvent(QKeyEvent *event)
 			break;
 
 		case Qt::Key_Q:
+			deleteSpellDisplay();
 			if (spellSelect != 0)
 			{
 				if (characters[0]->spellsCd[0] <= 0 && characters[0]->currentMana >= tab[characters[0]->spells[0]].manaCost)
@@ -366,13 +367,11 @@ void		Scene::keyPressEvent(QKeyEvent *event)
 				}
 			}
 			else
-			{
 				spellSelect = -1;
-				deleteSpellDisplay();
-			}
 			break;
 
 		case Qt::Key_W:
+			deleteSpellDisplay();
 			if (spellSelect != 1)
 			{
 				if (characters[0]->spellsCd[1] <= 0 && characters[0]->currentMana >= tab[characters[0]->spells[1]].manaCost)
@@ -382,13 +381,11 @@ void		Scene::keyPressEvent(QKeyEvent *event)
 				}
 			}
 			else
-			{
 				spellSelect = -1;
-				deleteSpellDisplay();
-			}
 			break;
 
 		case Qt::Key_E:
+			deleteSpellDisplay();
 			if (spellSelect != 2)
 			{
 				if (characters[0]->spellsCd[2] <= 0 && characters[0]->currentMana >= tab[characters[0]->spells[2]].manaCost)
@@ -398,13 +395,11 @@ void		Scene::keyPressEvent(QKeyEvent *event)
 				}
 			}
 			else
-			{
 				spellSelect = -1;
-				deleteSpellDisplay();
-			}
 			break;
 
 		case Qt::Key_R:
+			deleteSpellDisplay();
 			if (spellSelect != 3)
 			{
 				if (characters[0]->spellsCd[3] <= 0 && characters[0]->currentMana >= tab[characters[0]->spells[3]].manaCost)
@@ -414,10 +409,7 @@ void		Scene::keyPressEvent(QKeyEvent *event)
 				}
 			}
 			else
-			{
 				spellSelect = -1;
-				deleteSpellDisplay();
-			}
 			break;
 	}
 }
@@ -478,8 +470,11 @@ void		Scene::game()
 		{
 			if (characters[i]->id == PLAYERCLONE)
 				characters[0]->changeMana(40);
+			removeItem(texts[0]);
+			texts.erase(texts.begin());
 			removeItem(characters[i]);
 			characters.erase(characters.begin() + int (i));
+			i--;
 		}
 	}
 	if (background[unsigned (characters[0]->position.y)]

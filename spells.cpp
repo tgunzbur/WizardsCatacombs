@@ -85,7 +85,7 @@ Spell		*createClone(Scene *scene, Vector2 position, Vector2 direction, Character
 	Character	*spell;
 	std::string	image;
 
-	spell = scene->createCharacter(":/player.png", position + direction, PLAYERCLONE, "Player Clone", 1, 0, false);
+	spell = scene->createCharacter(":/playerDown.png", position + direction, PLAYERCLONE, "Player Clone", 1, 0, false);
 	spell->setOpacity(0.5);
 	scene->characters.push_back(spell);
 	parent->changeMana(-tab[1].manaCost);
@@ -113,6 +113,7 @@ std::vector <GameObject *>	displayClone(Scene *scene, Character *character)
 		if (scene->isInRoom(pos) &&
 			scene->background[unsigned (pos.y)][unsigned (pos.x)]->isGround())
 		{
+			pos.print();
 			for (j = 0; j < scene->characters.size(); j++)
 			{
 				if (scene->characters[j]->isTouched(pos))
@@ -123,8 +124,7 @@ std::vector <GameObject *>	displayClone(Scene *scene, Character *character)
 				scene->createGameObject(":/greenBorder.png", pos, 0));
 
 		}
-		else
-			stop = true;
+		stop = false;
 	}
 	return (scene->spellDisplay);
 }
