@@ -42,7 +42,7 @@ static std::string	gameObjects[5] =
 	":/ground.png",
 	":/groundWithWall.png",
 	":/wall.png",
-	":/stair.png"
+	":/stairDown.png"
 };
 
 typedef struct	s_characters

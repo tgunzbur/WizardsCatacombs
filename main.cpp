@@ -15,7 +15,7 @@ int     main(int argc, char **argv)
 	view->show();
 	QTimer *timer = new QTimer(scene);
 	QObject::connect(timer, SIGNAL(timeout()), scene, SLOT(Update()));
-	timer->start(1);
+	timer->start(17);
 	return application.exec();
 }
 

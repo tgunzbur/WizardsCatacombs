@@ -4,15 +4,19 @@ using namespace std;
 void	Scene::Update()
 {
 	setFocus();
-	updateGameObjects(background);
-	updateCharacters(characters);
-	updateSpells(spells);
-	updatePixmaps(pixmaps);
-	updateTexts(texts);
+	updateGameObjects();
+	updateCharacters();
+	updateSpells();
+	updatePixmaps();
+	updateTexts();
+	if (changingRoom && int(texts.size()) == 0)
+		changingRoom = false;
 }
 
 void	Scene::keyPressEvent(QKeyEvent *event)
 {
+	if (changingRoom)
+		return ;
 	switch (event->key())
 	{
 
@@ -77,9 +81,11 @@ void	Scene::keyPressEvent(QKeyEvent *event)
 
 Scene::Scene() : QGraphicsScene ()
 {
+	changingRoom = false;
 	actionPoint = 2;
 	spellSelected = -1;
 	roomSize = ROOMSIZE;
+	roomNumber = 0;
 	endEnemyTurn = false;
 }
 
@@ -154,7 +160,11 @@ void				Scene::createBackGround()
 	{
 		for (x = 0; int (x) < roomSize; x++)
 		{
-			if (rand() % 10 == 0)
+			if (int (x) == roomSize - 1 && y == 0)
+			{
+				createGameObject(STAIR, Vector2(int (x), int (y)));
+			}
+			else if (rand() % 10 == 0 && !(x == 0 && int (y) == roomSize - 1))
 			{
 				if (walls.size() > 0 && walls[0]->myPosition() == Vector2(int (x), int (y) - 1))
 					walls.erase(walls.begin());
@@ -174,14 +184,49 @@ void				Scene::createBackGround()
 	}
 }
 
+void		Scene::changeRoom()
+{
+	Text	*text;
+
+	roomNumber++;
+	if (roomNumber % 10 == 0)
+		roomSize++;
+	setGameObject(player, Vector2(0, roomSize - 1));
+	while (background.size() != 0)
+	{
+		removeItem(background[background.size() - 1]);
+		background.pop_back();
+	}
+	while (characters.size() != 1)
+	{
+		removeItem(characters[characters.size() - 1]);
+		characters.pop_back();
+	}
+	createBackGround();
+	changingRoom = true;
+	createPixmap(":/changeRoomBg.png", Vector2(0, 0), Vector2(int(width()), int(width())), nullptr, 60);
+	text = createText("Room " + std::to_string(roomNumber), Vector2(int (width()) / 5, int(width()) / 4), 5, nullptr, 60);
+	text->setDefaultTextColor(QColor(255, 255, 255));
+	updatePixmaps();
+	updateTexts();
+}
+
 Vector2		Scene::moveGameObject(GameObject *gameObject, Vector2 move)
 {
 	Vector2			position;
 	unsigned long	count;
 
 	position = gameObject->myPosition() + move;
-	if (isInRoom(position) && background[unsigned (position.y * roomSize + position.x)]->isGround())
+	if (isInRoom(position))
 	{
+		for (count = 0; count < background.size(); count++)
+			if (background[count]->myPosition() == position)
+			{
+				if (!background[count]->isGround())
+					return (gameObject->myPosition());
+				else
+					count = background.size();
+			}
 		for (count = 0; count < characters.size(); count++)
 			if (characters[count]->isAtPos(position))	
 				return (gameObject->myPosition());
@@ -197,8 +242,16 @@ Vector2		Scene::moveGameObject(Character *gameObject, Vector2 move)
 	unsigned long	count;
 
 	position = gameObject->myPosition() + move;
-	if (isInRoom(position) && background[unsigned (position.y * roomSize + position.x)]->isGround())
+	if (isInRoom(position))
 	{
+		for (count = 0; count < background.size(); count++)
+			if (background[count]->myPosition() == position)
+			{
+				if (!background[count]->isGround())
+					return (gameObject->myPosition());
+				else
+					count = background.size();
+			}
 		for (count = 0; count < characters.size(); count++)
 			if (characters[count]->isAtPos(position))
 				return (gameObject->myPosition());
@@ -206,7 +259,7 @@ Vector2		Scene::moveGameObject(Character *gameObject, Vector2 move)
 	else
 		return (gameObject->myPosition());
 	position = gameObject->movePosition(move);
-	updateCharacters(characters);
+	updateCharacters();
 	return (position);
 }
 
@@ -219,7 +272,7 @@ Vector2		Scene::setGameObject(GameObject *gameObject, Vector2 position)
 Vector2		Scene::setGameObject(Character *gameObject, Vector2 position)
 {
 	gameObject->setPosition(position);
-	updateCharacters(characters);
+	updateCharacters();
 	return (position);
 }
 
@@ -232,7 +285,7 @@ bool		Scene::isInRoom(Vector2 position)
 		return (false);
 }
 
-void	Scene::updateGameObjects(vector <GameObject*> myVector)
+void	Scene::updateGameObjects()
 {
 	Vector2			position;
 	unsigned long	count;
@@ -241,19 +294,19 @@ void	Scene::updateGameObjects(vector <GameObject*> myVector)
 
 	size = int (floor(width() / roomSize));
 	border = (int (width()) - size * roomSize) / 2;
-	for (count = 0; count < myVector.size(); count++)
+	for (count = 0; count < background.size(); count++)
 	{
-		removeItem(myVector[count]);
-		position = myVector[count]->myPosition();
+		removeItem(background[count]);
+		position = background[count]->myPosition();
 		position.x = position.x * size + border;
 		position.y = position.y * size + border;
-		myVector[count]->setPos(position.x, position.y);
-		myVector[count]->setPixmap(myVector[count]->pixmap().scaled(size, size));
-		addItem(myVector[count]);
+		background[count]->setPos(position.x, position.y);
+		background[count]->setPixmap(background[count]->pixmap().scaled(size, size));
+		addItem(background[count]);
 	}
 }
 
-void	Scene::updateCharacters(vector <Character*> myVector)
+void	Scene::updateCharacters()
 {
 	Vector2			position;
 	unsigned long	count;
@@ -264,6 +317,18 @@ void	Scene::updateCharacters(vector <Character*> myVector)
 	border = (int (width()) - size * roomSize) / 2;
 	if (player)
 	{
+		for (count = 0; count < background.size(); count++)
+		{
+			if (player->myPosition() == background[count]->myPosition())
+			{
+				if (background[count]->isStair())
+				{
+					changeRoom();
+					return ;
+				}
+				count = background.size();
+			}
+		}
 		removeItem(player);
 		position = player->myPosition();
 		position.x = position.x * size + border;
@@ -272,19 +337,19 @@ void	Scene::updateCharacters(vector <Character*> myVector)
 		player->setPixmap(player->pixmap().scaled(size, size));
 		addItem(player);
 	}
-	for (count = 0; count < myVector.size(); count++)
+	for (count = 0; count < characters.size(); count++)
 	{
-		removeItem(myVector[count]);
-		position = myVector[count]->myPosition();
+		removeItem(characters[count]);
+		position = characters[count]->myPosition();
 		position.x = position.x * size + border;
 		position.y = position.y * size + border;
-		myVector[count]->setPos(position.x, position.y);
-		myVector[count]->setPixmap(myVector[count]->pixmap().scaled(size, size));
-		addItem(myVector[count]);
+		characters[count]->setPos(position.x, position.y);
+		characters[count]->setPixmap(characters[count]->pixmap().scaled(size, size));
+		addItem(characters[count]);
 	}
 }
 
-void	Scene::updateSpells(vector </*spell*/GameObject*> myVector)
+void	Scene::updateSpells()
 {
 	Vector2			position;
 	unsigned long	count;
@@ -293,19 +358,19 @@ void	Scene::updateSpells(vector </*spell*/GameObject*> myVector)
 
 	size = int (floor(width() / roomSize));
 	border = (int (width()) - size * roomSize) / 2;
-	for (count = 0; count < myVector.size(); count++)
+	for (count = 0; count < spells.size(); count++)
 	{
-		removeItem(myVector[count]);
-		position = myVector[count]->myPosition();
+		removeItem(spells[count]);
+		position = spells[count]->myPosition();
 		position.x = position.x * size + border;
 		position.y = position.y * size + border;
-		myVector[count]->setPos(position.x, position.y);
-		myVector[count]->setPixmap(myVector[count]->pixmap().scaled(size, size));
-		addItem(myVector[count]);
+		spells[count]->setPos(position.x, position.y);
+		spells[count]->setPixmap(spells[count]->pixmap().scaled(size, size));
+		addItem(spells[count]);
 	}
 }
 
-void	Scene::updateTexts(vector <Text*> myVector)
+void	Scene::updateTexts()
 {
 	Vector2			position;
 	unsigned long	count;
@@ -314,34 +379,35 @@ void	Scene::updateTexts(vector <Text*> myVector)
 
 	size = int (floor(width() / roomSize));
 	border = (int (width()) - size * roomSize) / 2;
-	for (count = 0; count < myVector.size(); count++)
+	for (count = 0; count < texts.size(); count++)
 	{
-		removeItem(myVector[count]);
-		myVector[count]->setScale(myVector[count]->scale);
-		position = myVector[count]->parent->myPosition();
-		if (myVector[count]->parent != nullptr)
+		removeItem(texts[count]);
+		texts[count]->setScale(texts[count]->scale);
+		position = texts[count]->position;
+		if (texts[count]->parent != nullptr)
 		{
+			position += texts[count]->parent->myPosition();
 			position.x = position.x * size + border;
 			position.y = position.y * size + border;
-			myVector[count]->setPos(position.x, position.y);
+			texts[count]->setPos(position.x, position.y);
 		}
 		else
 		{
-			myVector[count]->setPos(position.x + border, position.y + border);
+			texts[count]->setPos(position.x + border, position.y + border);
 		}
-		addItem(myVector[count]);
-		if (myVector[count]->cd > 0)
-			myVector[count]->cd--;
-		if (myVector[count]->cd == 0)
+		addItem(texts[count]);
+		if (texts[count]->cd > 0)
+			texts[count]->cd--;
+		if (texts[count]->cd == 0)
 		{
-			removeItem(myVector[count]);
-			myVector.erase(myVector.begin() + int (count));
+			removeItem(texts[count]);
+			texts.erase(texts.begin() + int (count));
 			count--;
 		}
 	}
 }
 
-void	Scene::updatePixmaps(vector <Pixmap*> myVector)
+void	Scene::updatePixmaps()
 {
 	Vector2			position;
 	unsigned long	count;
@@ -350,24 +416,29 @@ void	Scene::updatePixmaps(vector <Pixmap*> myVector)
 
 	size = int (floor(width() / roomSize));
 	border = (int (width()) - size * roomSize) / 2;
-	for (count = 0; count < myVector.size(); count++)
+	for (count = 0; count < pixmaps.size(); count++)
 	{
-		removeItem(myVector[count]);
-		myVector[count]->setPixmap(myVector[count]->pixmap().scaled(size * myVector[count]->scale.x, size * myVector[count]->scale.y));
-		if (myVector[count]->parent != nullptr)
+		removeItem(pixmaps[count]);
+		pixmaps[count]->setPixmap(pixmaps[count]->pixmap().scaled(pixmaps[count]->scale.x,pixmaps[count]->scale.y));
+		position = pixmaps[count]->position;
+		if (pixmaps[count]->parent != nullptr)
 		{
-			position = myVector[count]->parent->myPosition();
+			position += pixmaps[count]->parent->myPosition();
 			position.x = position.x * size + border;
 			position.y = position.y * size + border;
-			myVector[count]->setPos(position.x, position.y);
+			pixmaps[count]->setPos(position.x, position.y);
 		}
-		addItem(myVector[count]);
-		if (myVector[count]->cd > 0)
-			myVector[count]->cd--;
-		if (myVector[count]->cd == 0)
+		else
 		{
-			removeItem(myVector[count]);
-			myVector.erase(myVector.begin() + int (count));
+			pixmaps[count]->setPos(position.x + border, position.y + border);
+		}
+		addItem(pixmaps[count]);
+		if (pixmaps[count]->cd > 0)
+			pixmaps[count]->cd--;
+		if (pixmaps[count]->cd == 0)
+		{
+			removeItem(pixmaps[count]);
+			pixmaps.erase(pixmaps.begin() + int (count));
 			count--;
 		}
 	}

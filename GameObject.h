@@ -23,6 +23,7 @@ class GameObject : public QGraphicsPixmapItem
 		Vector2	movePxPosition(Vector2 move);
 		Vector2	setPxPosition(Vector2 position);
 		bool	isGround();
+		bool	isStair();
 		bool	isWall();
 };
 

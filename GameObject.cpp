@@ -51,7 +51,21 @@ Vector2	GameObject::setPxPosition(Vector2 newPosition)
 
 bool	GameObject::isGround()
 {
-	if (id == GROUND || id == WALLGROUND)
+	if (id == GROUND || id == WALLGROUND || id == STAIR)
+		return (true);
+	return (false);
+}
+
+bool	GameObject::isStair()
+{
+	if (id == STAIR)
+		return (true);
+	return (false);
+}
+
+bool	GameObject::isWall()
+{
+	if (id == WALL)
 		return (true);
 	return (false);
 }

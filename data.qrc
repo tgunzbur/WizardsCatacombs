@@ -19,5 +19,6 @@
 		<file alias="manaBar.png">data/manaBar.png</file>
 		<file alias="healthBar.png">data/healthBar.png</file>
 		<file alias="shieldWall.png">data/manaBar.png</file>
+		<file alias="changeRoomBg.png">data/changeRoomBg.png</file>
 	</qresource>
 </RCC>

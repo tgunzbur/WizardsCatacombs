@@ -18,7 +18,10 @@ class	Scene: public QGraphicsScene
 		int		actionPoint;
 		int		spellSelected;
 		int		roomSize;
+		int		roomNumber;
 		bool	endEnemyTurn;
+
+		bool	changingRoom;
 
 		Character							*player;
 		std::vector <GameObject*>			background;
@@ -42,11 +45,12 @@ class	Scene: public QGraphicsScene
 		Vector2		setGameObject(GameObject *gameObject, Vector2 position);
 		Vector2		setGameObject(Character *gameObject, Vector2 position);
 		void		createBackGround();
-		void		updateGameObjects(std::vector <GameObject*> myVector);
-		void		updateCharacters(std::vector <Character*> myVector);
-		void		updateSpells(std::vector </*spell*/GameObject*> myVector);
-		void		updateTexts(std::vector <Text*> myVector);
-		void		updatePixmaps(std::vector <Pixmap*> myVector);
+		void		changeRoom();
+		void		updateGameObjects();
+		void		updateCharacters();
+		void		updateSpells();
+		void		updateTexts();
+		void		updatePixmaps();
 		void		keyPressEvent(QKeyEvent *event);
 
 		bool		isInRoom(Vector2 position);
