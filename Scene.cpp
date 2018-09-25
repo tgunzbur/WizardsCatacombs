@@ -205,7 +205,9 @@ Vector2		Scene::moveGameObject(Character *gameObject, Vector2 move)
 	}
 	else
 		return (gameObject->myPosition());
-	return (gameObject->movePosition(move));
+	position = gameObject->movePosition(move);
+	updateCharacters(characters);
+	return (position);
 }
 
 Vector2		Scene::setGameObject(GameObject *gameObject, Vector2 position)
@@ -217,6 +219,7 @@ Vector2		Scene::setGameObject(GameObject *gameObject, Vector2 position)
 Vector2		Scene::setGameObject(Character *gameObject, Vector2 position)
 {
 	gameObject->setPosition(position);
+	updateCharacters(characters);
 	return (position);
 }
 
