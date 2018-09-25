@@ -8,8 +8,10 @@ SOURCES += \
     Vector2.cpp \
 	Scene.cpp \
 	Character.cpp \
-    spells.cpp \
-    spell.cpp
+    Spell.cpp \
+    spellsFunction.cpp \
+    Text.cpp \
+    Pixmap.cpp
 
 RESOURCES += data.qrc
 
@@ -18,4 +20,8 @@ HEADERS += \
     GameObject.h \
     Vector2.h \
     Scene.h \
-    define.h
+    define.h \
+    Spell.h \
+    Character.h \
+    Text.h \
+    Pixmap.h

@@ -2,87 +2,55 @@
 #define SCENE_H
 
 #include <QGraphicsScene>
-#include <QWidget>
 #include <QKeyEvent>
-#include <QPixmap>
-#include <string>
-#include <QThread>
 
-#include "Vector2.h"
 #include "GameObject.h"
+#include "Character.h"
+#include "Vector2.h"
+#include "Text.h"
+#include "Pixmap.h"
 
 class	Scene: public QGraphicsScene
 {
 	Q_OBJECT
 
+	private:
+		int		actionPoint;
+		int		spellSelected;
+		int		roomSize;
+		bool	endEnemyTurn;
+
+		Character							*player;
+		std::vector <GameObject*>			background;
+		std::vector <Character*>			characters;
+		std::vector	</*Spell*/GameObject*>	spells;
+		std::vector <Text*>					texts;
+		std::vector <Pixmap*>				pixmaps;
+
 	public:
-		bool										aiLaunch;
-		int											pa;
-		int											spellSelect;
-		int											roomSize;
-		std::vector	<GameObject *>					UI;
-		std::vector <std::vector <GameObject *>>    background;
-		std::vector <Character *>					characters;
-		std::vector	<Spell *>						spells;
-		std::vector <QGraphicsTextItem *>			texts;
-		std::vector <GameObject *>					spellDisplay;
+		Scene();
 
-		Scene(int c_roomSize);
+		GameObject			*createGameObject(gameObjectId id, Vector2 position);
+		Character			*createPlayer(Vector2 position);
+		Character			*createCharacter(characterId id, Vector2 position);
+		/*Spell*/GameObject	*createSpellGameObject(gameObjectId id, Vector2 position);
+		Text				*createText(std::string text, Vector2 position, int scale, GameObject *parent, int cd);
+		Pixmap				*createPixmap(std::string image, Vector2 position, Vector2 scale, GameObject *parent, int cd);
 
-		GameObject	*createGameObject(std::string image, Vector2 position, int id);
-		Character	*createCharacter(std::string image, Vector2 position, int id, std::string name, int maxHealth, int maxMana, bool gotLifeBar);
-		Spell		*createSpell(std::string image, Vector2 position, int id, Vector2 direction, Character *parent);
-		GameObject	*updateGameObject(GameObject *gameObject);
 		Vector2		moveGameObject(GameObject *gameObject, Vector2 move);
 		Vector2		setGameObject(GameObject *gameObject, Vector2 position);
 		void		createBackGround();
-		void		deleteBackGround();
-		void		deleteCharacters();
-		void		deleteSpells();
-		void		deleteTexts();
-		void		deleteSpellDisplay();
-		void		deleteVectors();
-		void		launchAi();
-		void		createUi();
-		void		changeMana(Character *player);
-		void		changeLife(Character *player);
-		void		updateLife(Character *character);
+		void		updateGameObjects(std::vector <GameObject*> myVector);
+		void		updateCharacters(std::vector <Character*> myVector);
+		void		updateSpells(std::vector </*spell*/GameObject*> myVector);
+		void		updateTexts(std::vector <Text*> myVector);
+		void		updatePixmaps(std::vector <Pixmap*> myVector);
+		void		keyPressEvent(QKeyEvent *event);
+
 		bool		isInRoom(Vector2 position);
-		bool		isUnderWall(Vector2 position);
-		void		keyPressEvent(QKeyEvent *event);		
 
 	public slots:
-		void	game();
-};
-
-
-void						skeletonAi(Scene *scene, Character *skeleton);
-std::vector <GameObject *>	displayFireBall(Scene *scene, Character *character);
-std::vector <GameObject *>	displayClone(Scene *scene, Character *character);
-Spell						*createFireBall(Scene *scene, Vector2 position, Vector2 direction, Character *parent);
-Spell						*createClone(Scene *scene, Vector2 position, Vector2 direction, Character *parent);
-bool						fireBall(Scene * scene, Spell *fireBall);
-
-struct s_spell{
-	long			id;
-	std::string     image;
-	bool			needDir;
-	unsigned int    maxCooldown;
-	int             manaCost;
-	std::vector <GameObject *>	(*display)(Scene *, Character *);
-	Spell			*(*create)(Scene *, Vector2, Vector2, Character *);
-	bool            (*f)(Scene *, Spell *);
-};
-
-enum spell {
-	FIREBALL,
-	SHIELDWALL
-};
-
-static s_spell tab[2] =
-{
-	{FIREBALL, ":/fireBall.png", true, 1, 10, displayFireBall, createFireBall, fireBall},
-	{SHIELDWALL, ":/player.png", true, 3, 10, displayClone, createClone, nullptr}
+		void		Update();
 };
 
 #endif // SCENE_H

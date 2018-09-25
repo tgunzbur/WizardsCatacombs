@@ -1,8 +1,8 @@
-#include "GameObject.h"
+#include "Spell.h"
 
-Spell::Spell(QPixmap pixmap, Vector2 c_position, int c_id, Vector2 c_direction, Character *c_parent) : GameObject(pixmap, c_position, c_id)
+Spell::Spell(spellId _id)
 {
-	direction = c_direction;
-	start = c_position;
-	parent = c_parent;
+	id = _id;
+	coolDown = spells[id].coolDown;
+	manaCost = spells[id].manaCost;
 }

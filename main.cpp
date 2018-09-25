@@ -3,20 +3,17 @@
 int     main(int argc, char **argv)
 {
     QApplication    application(argc, argv);
-	Scene			*scene = new Scene(5);
+	Scene			*scene = new Scene();
     QGraphicsView   *view = new QGraphicsView(scene);
 
     scene->setSceneRect(0, 0, 450, 800);
 	scene->setFocus();
+	scene->createPlayer(Vector2 (0, ROOMSIZE - 1));
+	scene->createCharacter(SKELETON, Vector2 (0, 0));
 	scene->createBackGround();
-	scene->createUi();
-	scene->characters.push_back(scene->createCharacter(
-	":/playerLeft.png", Vector2 (0, scene->roomSize - 1), PLAYER, "Player", 100, 200, false));
-	scene->characters.push_back(scene->createCharacter(
-	":/skeletonDown.png", Vector2 (0, 0), SKELETON, "Skeleton", 100, 200, true));
 	view->show();
 	QTimer *timer = new QTimer(scene);
-	QObject::connect(timer, SIGNAL(timeout()), scene, SLOT(game()));
+	QObject::connect(timer, SIGNAL(timeout()), scene, SLOT(Update()));
 	timer->start(17);
-    return application.exec();
+	return application.exec();
 }

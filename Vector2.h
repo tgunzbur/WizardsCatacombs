@@ -18,6 +18,7 @@ class Vector2 {
 
 	Vector2 operator+(Vector2 a, Vector2 b);
 	Vector2 operator-(Vector2 a, Vector2 b);
+	Vector2 operator-(Vector2 a);
 	Vector2	operator*(Vector2 a, int b);
 	Vector2	operator/(Vector2 a, int b);
 	bool	operator==(Vector2 a, Vector2 b);

@@ -1,52 +1,38 @@
-#include "GameObject.h"
+#include "Character.h"
 
 using namespace std;
 
-Character::Character(QPixmap c_image, Vector2 c_pos, int id,
-					 string c_name, int c_maxHealth, int c_maxMana, GameObject *c_lifeBar)
-					: GameObject (c_image, c_pos, id, c_name)
+Character::Character(characterId _id, Vector2 _position) : GameObject (_id, _position)
 {
-	lifeBar = c_lifeBar;
-    maxHealth = c_maxHealth;
-	maxMana = c_maxMana;
-    currentHealth = maxHealth;
-    currentMana = maxMana;
-	text = 0;
-	cdText = 0;
-    for (int i = 0; i < 4; i++)
-	{
-		spells[i] = 0;
-		spellsCd[i] = 0;
-	}
-	spells[1] = 1;
+	int		count;
+
+	maxLife = characters[id].life;
+	maxMana = characters[id].mana;
+	life = maxLife;
+	mana = maxMana;
+	for (count = 0; count < 4; count++)
+		spells[count] = new Spell(NOSPELL);
 }
 
 int     Character::changeHealth(int value)
 {
-	currentHealth += value;
-	text = value;
-	if (currentHealth > maxHealth)
-		currentHealth = maxHealth;
-	else if (currentHealth < 0)
-		currentHealth = 0;
-	print();
-	return (currentHealth);
+	life += value;
+	life = (life > maxLife ? maxLife : life);
+	life = (life < 0 ? 0 : life);
+	return (life);
 }
 
 int     Character::changeMana(int value)
 {
-	currentMana += value;
-	if (currentMana > maxMana)
-		currentMana = maxMana;
-	else if (currentMana < 0)
-		currentMana = 0;
-	return (currentMana);
+	mana += value;
+	mana = (mana > maxMana ? maxMana : mana);
+	mana = (mana < 0 ? 0 : mana);
+	return (mana);
 }
 
-void    Character::print()
+bool	Character::isAtPos(Vector2 position)
 {
-    GameObject::print();
-	cout << "Health: " << currentHealth << "/" << maxHealth << endl;
-	cout << "Mana: " << currentMana << "/" << maxMana << endl;
-    cout << endl;
+	if (this->position == position)
+		return (true);
+	return (false);
 }

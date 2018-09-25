@@ -11,6 +11,8 @@
 
 #include "Vector2.h"
 #include "GameObject.h"
+#include "Character.h"
 #include "Scene.h"
+#include "define.h"
 
 #endif

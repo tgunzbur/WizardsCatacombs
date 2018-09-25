@@ -1,4 +1,4 @@
-#include "Scene.h"
+/*#include "Scene.h"
 
 bool		fireBall(Scene *scene, Spell *fireBall)
 {
@@ -128,3 +128,4 @@ std::vector <GameObject *>	displayClone(Scene *scene, Character *character)
 	}
 	return (scene->spellDisplay);
 }
+*/

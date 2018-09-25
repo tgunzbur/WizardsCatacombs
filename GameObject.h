@@ -2,62 +2,28 @@
 #define GAMEOBJECT_H
 
 #include <QGraphicsPixmapItem>
-#include <QKeyEvent>
-#include <QImage>
-#include <vector>
-#include <QObject>
+#include <string>
 
-#include "define.h"
 #include "Vector2.h"
+#include "define.h"
 
 class GameObject : public QGraphicsPixmapItem
 {
-    public:
-		Vector2		position;
-		std::string	name;
-		int			id;
+	protected:
+		int				id;
+		Vector2			position;
 
-		GameObject(QPixmap pixmap, Vector2 c_position, int c_id);
-		GameObject(QPixmap pixmap, Vector2 c_position, int c_id, std::string c_name);
+	public:
+		GameObject(gameObjectId _id, Vector2 _position);
+		GameObject(characterId _id, Vector2 _position);
+
+		Vector2	myPosition();
 		Vector2 movePosition(Vector2 move);
 		Vector2 setPosition(Vector2 position);
 		Vector2	movePxPosition(Vector2 move);
 		Vector2	setPxPosition(Vector2 position);
-		int		setImageSize(int size);
-		bool	isTouched(Vector2 pos);
 		bool	isGround();
-		void    print();
-};
-
-class Character: public GameObject
-{
-    public:
-		GameObject			*lifeBar;
-		int					currentHealth;
-		int					currentMana;
-		int					maxHealth;
-		int					maxMana;
-		int					text;
-		int					cdText;
-		int					spells[4];
-		int					spellsCd[4];
-
-		Character(QPixmap pixmap, Vector2 c_position, int c_id,
-				  std::string c_name, int c_maxHealth, int c_maxMana, GameObject *c_lifeBar);
-        int     changeHealth(int value);
-		int     changeMana(int value);
-		void    print();
-};
-
-class Spell: public GameObject
-{
-	public:
-		Character	*parent;
-		Vector2		direction;
-		Vector2		start;
-
-		Spell(QPixmap pixmap, Vector2 c_position, int c_id, Vector2 c_direction, Character *c_parent);
-
+		bool	isWall();
 };
 
 #endif

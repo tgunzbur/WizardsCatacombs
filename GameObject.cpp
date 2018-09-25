@@ -1,19 +1,23 @@
 #include "GameObject.h"
+using namespace std;
 
-GameObject::GameObject(QPixmap pixmap, Vector2 c_position, int c_id) : QGraphicsPixmapItem ()
+GameObject::GameObject(gameObjectId _id, Vector2 _position) : QGraphicsPixmapItem ()
 {
-	setPixmap(pixmap);
-	position = c_position;
-	id = c_id;
-	name = "Game Object";
+	id = _id;
+	position = _position;
+	setPixmap(QPixmap(gameObjects[id].c_str()));
 }
 
-GameObject::GameObject(QPixmap pixmap, Vector2 c_position, int c_id, std::string c_name) : QGraphicsPixmapItem ()
+GameObject::GameObject(characterId _id, Vector2 _position) : QGraphicsPixmapItem ()
 {
-	setPixmap(pixmap);
-	position = c_position;
-	id = c_id;
-	name = c_name;
+	id = _id;
+	position = _position;
+	setPixmap(QPixmap(characters[id].image.c_str()));
+}
+
+Vector2	GameObject::myPosition()
+{
+	return (position);
 }
 
 Vector2 GameObject::movePosition(Vector2 move)
@@ -23,10 +27,10 @@ Vector2 GameObject::movePosition(Vector2 move)
 }
 
 
-Vector2 GameObject::setPosition(Vector2 position)
+Vector2 GameObject::setPosition(Vector2 newPosition)
 {
-	this->position = position;
-	return (this->position);
+	position = newPosition;
+	return (newPosition);
 }
 
 Vector2 GameObject::movePxPosition(Vector2 move)
@@ -39,36 +43,15 @@ Vector2 GameObject::movePxPosition(Vector2 move)
 	return (newPosition);
 }
 
-Vector2	GameObject::setPxPosition(Vector2 position)
+Vector2	GameObject::setPxPosition(Vector2 newPosition)
 {
-	setPos(position.x, position.y);
-	return (position);
-}
-
-int		GameObject::setImageSize(int size)
-{
-	setPixmap(pixmap().scaled(size, size, Qt::KeepAspectRatio));
-	return (size);
-}
-
-bool	GameObject::isTouched(Vector2 position)
-{
-	if (this->position == position)
-		return (true);
-	else
-		return (false);
+	setPos(newPosition.x, newPosition.y);
+	return (newPosition);
 }
 
 bool	GameObject::isGround()
 {
-	if (id == GROUND || id == STAIR)
+	if (id == GROUND || id == WALLGROUND)
 		return (true);
-	else
-		return (false);
-}
-
-void    GameObject::print()
-{
-	std::cout << "Position (in px): " << pos().x()  << ", " << pos().y() << std::endl;
-	std::cout << "Position (in case): "; position.print();
+	return (false);
 }

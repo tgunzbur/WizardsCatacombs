@@ -41,6 +41,15 @@ Vector2		operator-(Vector2 a, Vector2 b)
 	return (result);
 }
 
+Vector2		operator-(Vector2 a)
+{
+	Vector2	result;
+
+	result.x = -a.x;
+	result.y = -a.y;
+	return (result);
+}
+
 Vector2		operator*(Vector2 a,int b)
 {
 	a.x *= b;
