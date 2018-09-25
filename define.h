@@ -5,6 +5,14 @@
 
 #define ROOMSIZE 5
 
+typedef enum	e_directionId
+{
+	UP,
+	DOWN,
+	LEFT,
+	RIGHT
+}				directionId;
+
 typedef enum	e_gameObjectId
 {
 	NOGAMEOBJECT,
@@ -39,7 +47,7 @@ static std::string	gameObjects[5] =
 
 typedef struct	s_characters
 {
-	std::string	image;
+	std::string	name;
 	int			life;
 	int			mana;
 }				t_characters;
@@ -47,8 +55,8 @@ typedef struct	s_characters
 static t_characters	characters[3] =
 {
 	{"", 0, 0},
-	{":/playerDown.png", 100, 100},
-	{":/skeletonDown.png", 100, 100}
+	{"player", 100, 100},
+	{"skeleton", 100, 100}
 };
 
 typedef struct	s_spells
@@ -65,5 +73,7 @@ static t_spells		spells[3] =
 	{":/fireball.png", 1, 10},
 	{":/heal.png", 2, 25}
 };
+
+const char	*imageName(std::string name, directionId direction);
 
 #endif // DEFINE_H

@@ -6,7 +6,7 @@
 		<file alias="playerDown.png">data/playerDown.png</file>
 		<file alias="playerUp.png">data/playerUp.png</file>
 		<file alias="playerRight.png">data/playerRight.png</file>
-		<file alias="playerLeft.png">data/playerRight.png</file>
+		<file alias="playerLeft.png">data/playerLeft.png</file>
 		<file alias="stairDown.png">data/stairDown.png</file>
 		<file alias="stairUp.png">data/stairUp.png</file>
 		<file alias="skeletonDown.png">data/skeletonDown.png</file>

@@ -20,6 +20,9 @@ class Character: public GameObject
 	public:
 		Character(characterId _id, Vector2 _position);
 
+		Vector2	movePosition(Vector2 move);
+		Vector2	setPosition(Vector2 position);
+
 		int     changeHealth(int value);
 		int     changeMana(int value);
 

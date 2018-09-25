@@ -12,7 +12,7 @@ GameObject::GameObject(characterId _id, Vector2 _position) : QGraphicsPixmapItem
 {
 	id = _id;
 	position = _position;
-	setPixmap(QPixmap(characters[id].image.c_str()));
+	setPixmap(QPixmap(imageName(characters[id].name, DOWN)));
 }
 
 Vector2	GameObject::myPosition()

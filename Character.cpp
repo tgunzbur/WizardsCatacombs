@@ -14,6 +14,27 @@ Character::Character(characterId _id, Vector2 _position) : GameObject (_id, _pos
 		spells[count] = new Spell(NOSPELL);
 }
 
+Vector2	Character::movePosition(Vector2 move)
+{
+	position += move;
+	if (move.x > 0 && move.x >= move.y)
+		setPixmap(QPixmap(imageName(characters[id].name, RIGHT)));
+	else if (move.x < 0 && move.x <= move.y)
+		setPixmap(QPixmap(imageName(characters[id].name, LEFT)));
+	else if (move.y > 0 && move.y >= move.x)
+		setPixmap(QPixmap(imageName(characters[id].name, DOWN)));
+	else if (move.y < 0 && move.y <= move.x)
+		setPixmap(QPixmap(imageName(characters[id].name, UP)));
+	return (position);
+}
+
+Vector2	Character::setPosition(Vector2 position)
+{
+	this->position = position;
+	setPixmap(QPixmap(imageName(characters[id].name, DOWN)));
+	return (position);
+}
+
 int     Character::changeHealth(int value)
 {
 	life += value;

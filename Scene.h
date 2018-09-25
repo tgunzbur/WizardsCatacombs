@@ -38,7 +38,9 @@ class	Scene: public QGraphicsScene
 		Pixmap				*createPixmap(std::string image, Vector2 position, Vector2 scale, GameObject *parent, int cd);
 
 		Vector2		moveGameObject(GameObject *gameObject, Vector2 move);
+		Vector2		moveGameObject(Character *gameObject, Vector2 move);
 		Vector2		setGameObject(GameObject *gameObject, Vector2 position);
+		Vector2		setGameObject(Character *gameObject, Vector2 position);
 		void		createBackGround();
 		void		updateGameObjects(std::vector <GameObject*> myVector);
 		void		updateCharacters(std::vector <Character*> myVector);

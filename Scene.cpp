@@ -191,7 +191,30 @@ Vector2		Scene::moveGameObject(GameObject *gameObject, Vector2 move)
 	return (gameObject->movePosition(move));
 }
 
+Vector2		Scene::moveGameObject(Character *gameObject, Vector2 move)
+{
+	Vector2			position;
+	unsigned long	count;
+
+	position = gameObject->myPosition() + move;
+	if (isInRoom(position) && background[unsigned (position.y * roomSize + position.x)]->isGround())
+	{
+		for (count = 0; count < characters.size(); count++)
+			if (characters[count]->isAtPos(position))
+				return (gameObject->myPosition());
+	}
+	else
+		return (gameObject->myPosition());
+	return (gameObject->movePosition(move));
+}
+
 Vector2		Scene::setGameObject(GameObject *gameObject, Vector2 position)
+{
+	gameObject->setPosition(position);
+	return (position);
+}
+
+Vector2		Scene::setGameObject(Character *gameObject, Vector2 position)
 {
 	gameObject->setPosition(position);
 	return (position);
@@ -269,7 +292,6 @@ void	Scene::updateSpells(vector </*spell*/GameObject*> myVector)
 	border = (int (width()) - size * roomSize) / 2;
 	for (count = 0; count < myVector.size(); count++)
 	{
-<<<<<<< HEAD
 		removeItem(myVector[count]);
 		position = myVector[count]->myPosition();
 		position.x = position.x * size + border;
@@ -277,115 +299,6 @@ void	Scene::updateSpells(vector </*spell*/GameObject*> myVector)
 		myVector[count]->setPos(position.x, position.y);
 		myVector[count]->setPixmap(myVector[count]->pixmap().scaled(size, size));
 		addItem(myVector[count]);
-=======
-		case Qt::Key_Up:
-			if (spellSelect < 0)
-				moveGameObject(characters[0], Vector2(0, -1));
-			else
-			{
-				tab[unsigned (characters[0]->spells[spellSelect])].create(this, characters[0]->position, Vector2(0, -1), characters[0]);
-				characters[0]->spellsCd[spellSelect] = int (tab[characters[0]->spells[spellSelect]].maxCooldown);
-			}
-			pa--;
-			spellSelect = -1;
-			deleteSpellDisplay();
-			break;
-
-		case Qt::Key_Down:
-			if (spellSelect < 0)
-				moveGameObject(characters[0], Vector2(0, 1));
-			else
-			{
-				tab[unsigned (characters[0]->spells[spellSelect])].create(this, characters[0]->position, Vector2(0, 1), characters[0]);
-				characters[0]->spellsCd[spellSelect] = int (tab[characters[0]->spells[spellSelect]].maxCooldown);
-			}
-			pa--;
-			spellSelect = -1;
-			deleteSpellDisplay();
-			break;
-
-		case Qt::Key_Left:
-			if (spellSelect < 0)
-				moveGameObject(characters[0], Vector2(-1, 0));
-			else
-			{
-				tab[unsigned (characters[0]->spells[spellSelect])].create(this, characters[0]->position, Vector2(-1, 0), characters[0]);
-				characters[0]->spellsCd[spellSelect] = int (tab[characters[0]->spells[spellSelect]].maxCooldown);
-			}
-			pa--;
-			spellSelect = -1;
-			deleteSpellDisplay();
-			break;
-
-		case Qt::Key_Right:
-			if (spellSelect < 0)
-				moveGameObject(characters[0], Vector2(1, 0));
-			else
-			{
-				tab[unsigned (characters[0]->spells[spellSelect])].create(this, characters[0]->position, Vector2(1, 0), characters[0]);
-				characters[0]->spellsCd[spellSelect] = int (tab[characters[0]->spells[spellSelect]].maxCooldown);
-			}
-			pa--;
-			spellSelect = -1;
-			deleteSpellDisplay();
-			break;
-
-		case Qt::Key_Q:
-			deleteSpellDisplay();
-			if (spellSelect != 0)
-			{
-				if (characters[0]->spellsCd[0] <= 0 && characters[0]->currentMana >= tab[characters[0]->spells[0]].manaCost)
-				{
-					spellSelect = 0;
-					spellDisplay = tab[unsigned (characters[0]->spells[spellSelect])].display(this, characters[0]);
-				}
-			}
-			else
-				spellSelect = -1;
-			break;
-
-		case Qt::Key_W:
-			deleteSpellDisplay();
-			if (spellSelect != 1)
-			{
-				if (characters[0]->spellsCd[1] <= 0 && characters[0]->currentMana >= tab[characters[0]->spells[1]].manaCost)
-				{
-					spellSelect = 1;
-					spellDisplay = tab[unsigned (characters[0]->spells[spellSelect])].display(this, characters[0]);
-				}
-			}
-			else
-				spellSelect = -1;
-			break;
-
-		case Qt::Key_E:
-			deleteSpellDisplay();
-			if (spellSelect != 2)
-			{
-				if (characters[0]->spellsCd[2] <= 0 && characters[0]->currentMana >= tab[characters[0]->spells[2]].manaCost)
-				{
-					spellSelect = 2;
-					spellDisplay = tab[unsigned (characters[0]->spells[spellSelect])].display(this, characters[0]);
-				}
-			}
-			else
-				spellSelect = -1;
-			break;
-
-		case Qt::Key_R:
-			deleteSpellDisplay();
-			if (spellSelect != 3)
-			{
-				if (characters[0]->spellsCd[3] <= 0 && characters[0]->currentMana >= tab[characters[0]->spells[3]].manaCost)
-				{
-					spellSelect = 3;
-					spellDisplay = tab[unsigned (characters[0]->spells[spellSelect])].display(this, characters[0]);
-				}
-			}
-			else
-				spellSelect = -1;
-			break;
->>>>>>> 697009d9aabe194a6158e511d8b3211a1529e987
 	}
 }
 
@@ -418,19 +331,9 @@ void	Scene::updateTexts(vector <Text*> myVector)
 			myVector[count]->cd--;
 		if (myVector[count]->cd == 0)
 		{
-<<<<<<< HEAD
 			removeItem(myVector[count]);
 			myVector.erase(myVector.begin() + int (count));
 			count--;
-=======
-			if (characters[i]->id == PLAYERCLONE)
-				characters[0]->changeMana(40);
-			removeItem(texts[0]);
-			texts.erase(texts.begin());
-			removeItem(characters[i]);
-			characters.erase(characters.begin() + int (i));
-			i--;
->>>>>>> 697009d9aabe194a6158e511d8b3211a1529e987
 		}
 	}
 }
