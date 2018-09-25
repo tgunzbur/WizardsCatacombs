@@ -8,6 +8,7 @@
 #include <QImage>
 #include <string>
 #include <vector>
+#include <time.h>
 
 #include "Vector2.h"
 #include "GameObject.h"

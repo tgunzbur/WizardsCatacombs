@@ -6,7 +6,8 @@ int     main(int argc, char **argv)
 	Scene			*scene = new Scene();
     QGraphicsView   *view = new QGraphicsView(scene);
 
-    scene->setSceneRect(0, 0, 450, 800);
+	srand(unsigned (time(nullptr)));
+	scene->setSceneRect(0, 0, 450, 800);
 	scene->setFocus();
 	scene->createPlayer(Vector2 (0, ROOMSIZE - 1));
 	scene->createCharacter(SKELETON, Vector2 (0, 0));
